@@ -1,28 +1,27 @@
-package lab2;
-/**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
- *   Class          LoanCalculator 
- *   File           LoanCalculator.java 
- *   Description    Calculates a monthly loan payment given loan amount,
- *                  interest rate, and years of loan
- *   @author       Koenn Becker
- *   Environment    PC, Windows 10, jdk1.8.0_151, NetBeans 8.2
- *   Date           1/8/2018
- *   @version        1.0.0 
- *   @see            javax.swing.JOptionPane 
- *   History Log 
- *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/ 
+package lab2; 
+
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ *Calculates a monthly loan payment given loan amount,
+ * interest rate, and years of loan
+ * <p>
+ * Environment:    PC, Windows 10, jdk1.8.0_151, NetBeans 8.2
+ * <p>
+ * Date:           1/10/2018 
+ * <p>
+ * History Log:    1/8/2018
+ * <p>
  * @author Koenn Becker
+ * @version     1.0.1
+ * @see javax.swing.JOptionPane
  */
 public class LoanCalculator extends javax.swing.JFrame {
 
     /**
-     * Creates new form loanGUI
+     * Creates new form LoanCalculator
      */
     public LoanCalculator() {
         initComponents();
@@ -207,14 +206,14 @@ public class LoanCalculator extends javax.swing.JFrame {
     }//GEN-LAST:event_quitJButtonActionPerformed
 
     /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
-     *<pre>     
-     *   Method:        main()     
+     *    
+     *   Method        main()     
      *   Description    Calculates monthly payment. Relies on two     
      *                  member methods: inputDouble and payment    
      *   @param         args are the command line strings     
      *   @author        Koenn Becker   
      *   Date           1/8/2018  
-     *<pre>     
+     *    
      *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/ 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
