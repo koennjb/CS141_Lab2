@@ -13,6 +13,7 @@ package lab2;
  *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/ 
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -26,6 +27,7 @@ public class LoanCalculator extends javax.swing.JFrame {
     public LoanCalculator() {
         initComponents();
         this.setLocationRelativeTo(null); // Centers forms
+        SwingUtilities.getRootPane(calculateJButton).setDefaultButton(calculateJButton);
     }
 
     /**
@@ -54,6 +56,8 @@ public class LoanCalculator extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Loan Calculator");
+        setMinimumSize(new java.awt.Dimension(100, 193));
+        setPreferredSize(new java.awt.Dimension(350, 400));
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridLayout(7, 2, 3, 3));
 
@@ -65,6 +69,7 @@ public class LoanCalculator extends javax.swing.JFrame {
         calcCounterJTextField.setEditable(false);
         calcCounterJTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         calcCounterJTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        calcCounterJTextField.setPreferredSize(new java.awt.Dimension(15, 23));
         getContentPane().add(calcCounterJTextField);
 
         principalJLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -123,7 +128,7 @@ public class LoanCalculator extends javax.swing.JFrame {
 
         clearJButton.setBackground(new java.awt.Color(255, 255, 204));
         clearJButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        clearJButton.setMnemonic('C');
+        clearJButton.setMnemonic('R');
         clearJButton.setText("Clear");
         clearJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,7 +139,7 @@ public class LoanCalculator extends javax.swing.JFrame {
 
         quitJButton.setBackground(new java.awt.Color(255, 255, 204));
         quitJButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        quitJButton.setMnemonic('C');
+        quitJButton.setMnemonic('Q');
         quitJButton.setText("Quit");
         quitJButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,12 +150,13 @@ public class LoanCalculator extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    int counter = 0;
+    
     private void calculateJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateJButtonActionPerformed
         // Calculate the loan payment
         try {
             // Gets inputs from text fieleds
-            int counter = 0;
             double amount = Double.parseDouble(principalJTextField.getText());
             double rate = Double.parseDouble(rateJTextField.getText());
             double years = Double.parseDouble(yearsJTextField.getText());
@@ -176,7 +182,7 @@ public class LoanCalculator extends javax.swing.JFrame {
         }
         catch(NumberFormatException nume){
             JOptionPane.showMessageDialog(null,
-                    "Please enter a positive numver for all required fields",
+                    "Please enter a positive number for all required fields",
                     "Input Error", JOptionPane.WARNING_MESSAGE);
             principalJTextField.requestFocus();
             principalJTextField.selectAll();
@@ -185,6 +191,12 @@ public class LoanCalculator extends javax.swing.JFrame {
 
     private void clearJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearJButtonActionPerformed
         // Clears all text fields and resets focus
+        
+        principalJTextField.setText("");
+        rateJTextField.setText("");
+        paymentJTextField.setText("");
+        interestJTextField.setText("");
+        yearsJTextField.setText("");   
         
     }//GEN-LAST:event_clearJButtonActionPerformed
 
