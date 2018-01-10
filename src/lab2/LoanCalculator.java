@@ -4,9 +4,9 @@ package lab2;
  *   File           LoanCalculator.java 
  *   Description    Calculates a monthly loan payment given loan amount,
  *                  interest rate, and years of loan
- *   @author:       Koenn Becker
+ *   @author       Koenn Becker
  *   Environment    PC, Windows 10, jdk1.8.0_151, NetBeans 8.2
- *   Date:           1/8/2018
+ *   Date           1/8/2018
  *   @version        1.0.0 
  *   @see            javax.swing.JOptionPane 
  *   History Log 
@@ -151,11 +151,11 @@ public class LoanCalculator extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    int counter = 0;
+    
     
     private void calculateJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateJButtonActionPerformed
         // Calculate the loan payment
-        try {
+        try {   // Try block tests code inside and if invalidInputs is true, throws exception
             // Gets inputs from text fieleds
             double amount = Double.parseDouble(principalJTextField.getText());
             double rate = Double.parseDouble(rateJTextField.getText());
@@ -166,6 +166,7 @@ public class LoanCalculator extends javax.swing.JFrame {
             if (invalidInputs)
                 throw new NumberFormatException();
             else {
+                
                 // Calculate payment using formula
                 counter ++;
                 double payment = (amount * rate/1200)/(1 - 
@@ -243,6 +244,15 @@ public class LoanCalculator extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                
+                // Halts the running thread for length of splash screen gif in milliseconds
+                try {
+                    Thread.sleep(3450);
+                }
+                catch(Exception e) {
+                }
+                
+                // Creats new form Object and sets it visible
                 new LoanCalculator().setVisible(true);
             }
         });
@@ -264,4 +274,5 @@ public class LoanCalculator extends javax.swing.JFrame {
     private javax.swing.JLabel yearsJLabel;
     private javax.swing.JTextField yearsJTextField;
     // End of variables declaration//GEN-END:variables
+    int counter = 0;    // Sets a class variable for counter text field
 }
