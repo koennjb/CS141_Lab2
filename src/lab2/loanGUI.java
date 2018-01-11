@@ -7,28 +7,34 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 /**
- *Calculates a monthly loan payment given loan amount,
- * interest rate, and years of loan
- * <p>
- * Environment:    PC, Windows 10, JDK 1.8.0_151, NetBeans 8.2
- * <p>
- * Date:           1/10/2018 
- * <p>
- * History Log:    1/8/2018
- * <p>
- * @author Koenn Becker
- * @version     1.0.1
- * @see javax.swing.JOptionPane
+ *  Calculates a monthly loan payment given loan amount,
+ *  interest rate, and years of loan. Uses Java Swing for GUI
+ *  <p>
+ *  Environment:    PC, Windows 10, JDK 1.8.0_151, NetBeans 8.2
+ *  <p>
+ *  Date:           1/10/2018 
+ *  <p>
+ *  History Log:    1/8/2018
+ *  <p>
+ *  @author         Koenn Becker
+ *  @version        1.0.0
  */
 public class loanGUI extends javax.swing.JFrame {
 
     int counter = 0;    // Sets a class variable for counter text field
+    
     /**
-     * Creates new form loanGUI
+     * Creates new form loanGUI<br>
+     * Sets form position to center of screen<br>
+     * Sets default button to {@link #calculateJButton}<br>
+     * Sets icon for form<br>
+     * Sets the current date on form<br>
+     * @see initComponents
+     * @see #setDate() 
      */
+    
     public loanGUI() {
         initComponents();
         this.setLocationRelativeTo(null); // Centers forms
@@ -41,7 +47,16 @@ public class loanGUI extends javax.swing.JFrame {
         // Sets current date and adds it to form title
         setDate();
     }
-    // NEEDS JAVADOC
+    /**        
+     *  Method          setDate()     
+     *  Description:    Creates new SimpleDateFormat<br>
+     *                  Sets date and then adds it to form title<br>
+     *  Date Created:           1/10/2018  
+     *  @author         Koenn Becker
+     *  @see            java.text.DateFormat
+     *  @see            java.text.SimpleDateFormat
+     *  @see            java.util.Date 
+     */ 
     private void setDate() {
         
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -172,43 +187,62 @@ public class loanGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     
-    // NEEDS LOTS OF JAVADOCS 
+     /**        
+     *  Event handler   calculateJButtonActionPerformed    
+     *  Description:    This is the central method of the program. It is ran when {@link #calculateJButton} is pressed.
+     *                  There are many parts to this method: Local variable initialization, 
+     *                  input validation using a try/catch block, store inputs from text fields,
+     *                  calculation counter, actual calculation formula, dollar DecimalFormat, displaying output to
+     *                  appropriate fields, and exception to be thrown if invalidInput.<p>
+     *  Date Created:   1/10/2018
+     *  @param          evt
+     *  @author         Koenn Becker
+     *  @see            java.text.DecimalFormat
+     *  @exception      NumberFormatException When invalidInput is true
+     *  @see            NumberFormatException
+     */  
     private void calculateJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateJButtonActionPerformed
-        // Calculate the loan payment
+        // Calculates the loan payment
         
+        
+        // Defines constants
         final double MAX_AMOUNT = 1000000000;
         final double MAX_INTEREST_RATE = 100;
         final int COMPOUNDINGS = 12;
         final double MAX_YEARS = 50;
         final double PERIOD_INTEREST = COMPOUNDINGS * 100;
-        String errorMessage = "Please enter a positive number for all required fields." +
-                "\nLoan amount must be in range [(0, " + MAX_AMOUNT + "]" +
-                "\nInterest rate must be in range ([0, " + MAX_INTEREST_RATE + "]" +
-                "\nYears must be in range ([0, " + MAX_YEARS + "]";
         
-        // Gets inputs from text fieleds
-        double amount = Double.parseDouble(principalJTextField.getText());
-        double rate = Double.parseDouble(rateJTextField.getText());
-        double years = Double.parseDouble(yearsJTextField.getText());
-           
+        // Error message to be displayed when NumberFormatException is thrown
+        String errorMessage = "Please enter a positive number for all required fields and insure that no characters are entered." +
+                "\nLoan amount must be in range [(0 - " + MAX_AMOUNT + "]" +
+                "\nInterest rate must be in range ([0 - " + MAX_INTEREST_RATE + "]" +
+                "\nYears must be in range ([0 - " + MAX_YEARS + "]";
+        
+        
         try {   // Try block tests code inside and if invalidInputs is true, throws exception
-          
+            
+            // Gets inputs from text fieleds
+            double amount = Double.parseDouble(principalJTextField.getText());
+            double rate = Double.parseDouble(rateJTextField.getText());
+            double years = Double.parseDouble(yearsJTextField.getText());
+
             boolean invalidInput = (amount < 0 || amount > MAX_AMOUNT || 
                     rate < 0 || rate > MAX_INTEREST_RATE || years < 0 || years > MAX_YEARS);
             
             if (invalidInput)
                 
                 throw new NumberFormatException();
-            
-            else {
+
+            else {      // This code runs if invalidInput is false
                 
                 // Calculate payment using formula
-                counter ++;
-                    double payment = (amount * rate/PERIOD_INTEREST)/
+                counter ++;     // Increases the counter variable by 1
+                double payment = (amount * rate/PERIOD_INTEREST)/
                         (1 - Math.pow((1 + rate/PERIOD_INTEREST), years * (-COMPOUNDINGS)));
+                
                 double interest = years * COMPOUNDINGS * payment - amount;
                 
-                // Display result formatting
+                // Result formatting mask
                 DecimalFormat dollars = new DecimalFormat("$#,##0.00");
                 
                 // Display results to according textfields
@@ -217,14 +251,26 @@ public class loanGUI extends javax.swing.JFrame {
                 interestJTextField.setText(dollars.format(interest));
             }
         }
-        catch(NumberFormatException nume){
+        // When NumberFormatException is thrown, the following code block is ran
+        catch(NumberFormatException e){
             JOptionPane.showMessageDialog(null, errorMessage, "Input Error", 
                     JOptionPane.WARNING_MESSAGE);
             principalJTextField.requestFocus();
             principalJTextField.selectAll();
+                
         }
+        
     }//GEN-LAST:event_calculateJButtonActionPerformed
-
+    
+    /**        
+     *  Event handler   clearJButtonActionPerformed    
+     *  Description:    This event handler clears all text fields(except the calculation counter) by {@code .setText("")} 
+     *                  and resets focus to {@link #principalJTextField}.<p>
+     *  Date Created:   1/10/2018 
+     *  @param          evt
+     *  @author         Koenn Becker
+     *  @see            javax.swing.text.JTextComponent#setText
+     */  
     private void clearJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearJButtonActionPerformed
         // Clears all text fields and resets focus
         
@@ -232,25 +278,32 @@ public class loanGUI extends javax.swing.JFrame {
         rateJTextField.setText("");
         paymentJTextField.setText("");
         interestJTextField.setText("");
-        yearsJTextField.setText("");   
+        yearsJTextField.setText("");
+        
+        principalJTextField.requestFocus(); // Resets focus
         
     }//GEN-LAST:event_clearJButtonActionPerformed
 
+     /**        
+     *  Event handler   quitJButtonActionPerformed    
+     *  Description:    This event handler terminates the application using {@code System.exit(0)}.<p>
+     *  Date Created:   1/10/2018 
+     *  @param          evt
+     *  @author         Koenn Becker
+     */
     private void quitJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitJButtonActionPerformed
         // Quits the application
         System.exit(0);
     }//GEN-LAST:event_quitJButtonActionPerformed
 
-    /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~     
-     *    
-     *   Method        main()     
-     *   Description    Calculates monthly payment. Relies on two     
-     *                  member methods: inputDouble and payment    
-     *   @param         args are the command line strings     
-     *   @author        Koenn Becker   
-     *   Date           1/8/2018  
-     *    
-     *~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/ 
+    /**        
+     *  Method         main()    
+     *  Description:   Creates new {@link #loanGUI()} object and sets it to visible.
+     *                  Also uses try catch block to halt the thread so LoanCalcSplash.gif can run
+     *  @param         args Unused.     
+     *  @author        Koenn Becker   
+     *  Date Created:  1/10/2018  
+     */ 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -284,9 +337,9 @@ public class loanGUI extends javax.swing.JFrame {
                 
                 // Halts the running thread for length of splash screen gif in milliseconds
                 try {
-                    Thread.sleep(3450);
+                    Thread.sleep(1650);
                 }
-                catch(Exception e) {
+                catch(InterruptedException e) {
                 }
                 
                 // Creats new form Object and sets it visible
