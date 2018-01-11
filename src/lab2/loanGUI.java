@@ -1,6 +1,11 @@
 package lab2; 
 
+// Imports classes needed
+import java.awt.Toolkit;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -8,7 +13,7 @@ import javax.swing.SwingUtilities;
  *Calculates a monthly loan payment given loan amount,
  * interest rate, and years of loan
  * <p>
- * Environment:    PC, Windows 10, jdk1.8.0_151, NetBeans 8.2
+ * Environment:    PC, Windows 10, JDK 1.8.0_151, NetBeans 8.2
  * <p>
  * Date:           1/10/2018 
  * <p>
@@ -18,15 +23,31 @@ import javax.swing.SwingUtilities;
  * @version     1.0.1
  * @see javax.swing.JOptionPane
  */
-public class LoanCalculator extends javax.swing.JFrame {
+public class loanGUI extends javax.swing.JFrame {
 
+    int counter = 0;    // Sets a class variable for counter text field
     /**
-     * Creates new form LoanCalculator
+     * Creates new form loanGUI
      */
-    public LoanCalculator() {
+    public loanGUI() {
         initComponents();
         this.setLocationRelativeTo(null); // Centers forms
-        SwingUtilities.getRootPane(calculateJButton).setDefaultButton(calculateJButton);
+        this.getRootPane().setDefaultButton(calculateJButton); // Sets default button
+        
+        // Set icon for form
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/lab2/planeIcon.png"));
+        // Sets focused field
+        principalJTextField.requestFocus();
+        // Sets current date and adds it to form title
+        setDate();
+    }
+    // NEEDS JAVADOC
+    private void setDate() {
+        
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = new Date();
+        this.setTitle("Loan Calculator -- " + dateFormat.format(date));
+    
     }
 
     /**
@@ -56,7 +77,7 @@ public class LoanCalculator extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Loan Calculator");
         setMinimumSize(new java.awt.Dimension(100, 193));
-        setPreferredSize(new java.awt.Dimension(350, 400));
+        setPreferredSize(new java.awt.Dimension(400, 300));
         setResizable(false);
         getContentPane().setLayout(new java.awt.GridLayout(7, 2, 3, 3));
 
@@ -151,39 +172,54 @@ public class LoanCalculator extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     
-    
+    // NEEDS LOTS OF JAVADOCS 
     private void calculateJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateJButtonActionPerformed
         // Calculate the loan payment
+        
+        final double MAX_AMOUNT = 1000000000;
+        final double MAX_INTEREST_RATE = 100;
+        final int COMPOUNDINGS = 12;
+        final double MAX_YEARS = 50;
+        final double PERIOD_INTEREST = COMPOUNDINGS * 100;
+        String errorMessage = "Please enter a positive number for all required fields." +
+                "\nLoan amount must be in range [(0, " + MAX_AMOUNT + "]" +
+                "\nInterest rate must be in range ([0, " + MAX_INTEREST_RATE + "]" +
+                "\nYears must be in range ([0, " + MAX_YEARS + "]";
+        
+        // Gets inputs from text fieleds
+        double amount = Double.parseDouble(principalJTextField.getText());
+        double rate = Double.parseDouble(rateJTextField.getText());
+        double years = Double.parseDouble(yearsJTextField.getText());
+           
         try {   // Try block tests code inside and if invalidInputs is true, throws exception
-            // Gets inputs from text fieleds
-            double amount = Double.parseDouble(principalJTextField.getText());
-            double rate = Double.parseDouble(rateJTextField.getText());
-            double years = Double.parseDouble(yearsJTextField.getText());
-            boolean invalidInputs = (amount < 0 || amount > 1000000000 || 
-                    rate < 0 || rate > 100 || years < 0 || years > 100);
+          
+            boolean invalidInput = (amount < 0 || amount > MAX_AMOUNT || 
+                    rate < 0 || rate > MAX_INTEREST_RATE || years < 0 || years > MAX_YEARS);
             
-            if (invalidInputs)
+            if (invalidInput)
+                
                 throw new NumberFormatException();
+            
             else {
                 
                 // Calculate payment using formula
                 counter ++;
-                double payment = (amount * rate/1200)/(1 - 
-                        Math.pow((1 + rate/1200), years * (-12)));
-                double interest = years * payment * 12 - amount;
+                    double payment = (amount * rate/PERIOD_INTEREST)/
+                        (1 - Math.pow((1 + rate/PERIOD_INTEREST), years * (-COMPOUNDINGS)));
+                double interest = years * COMPOUNDINGS * payment - amount;
+                
+                // Display result formatting
                 DecimalFormat dollars = new DecimalFormat("$#,##0.00");
-                String result = dollars.format(payment);
                 
                 // Display results to according textfields
                 calcCounterJTextField.setText(String.valueOf(counter));
-                paymentJTextField.setText(result);
+                paymentJTextField.setText(dollars.format(payment));
                 interestJTextField.setText(dollars.format(interest));
             }
         }
         catch(NumberFormatException nume){
-            JOptionPane.showMessageDialog(null,
-                    "Please enter a positive number for all required fields",
-                    "Input Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, errorMessage, "Input Error", 
+                    JOptionPane.WARNING_MESSAGE);
             principalJTextField.requestFocus();
             principalJTextField.selectAll();
         }
@@ -229,14 +265,16 @@ public class LoanCalculator extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoanCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(loanGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoanCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(loanGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoanCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(loanGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoanCalculator.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(loanGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -252,7 +290,7 @@ public class LoanCalculator extends javax.swing.JFrame {
                 }
                 
                 // Creats new form Object and sets it visible
-                new LoanCalculator().setVisible(true);
+                new loanGUI().setVisible(true);
             }
         });
     }
@@ -273,5 +311,5 @@ public class LoanCalculator extends javax.swing.JFrame {
     private javax.swing.JLabel yearsJLabel;
     private javax.swing.JTextField yearsJTextField;
     // End of variables declaration//GEN-END:variables
-    int counter = 0;    // Sets a class variable for counter text field
+    
 }

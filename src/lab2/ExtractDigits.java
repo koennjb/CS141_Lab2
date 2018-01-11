@@ -32,6 +32,14 @@ public class ExtractDigits {
         if (year < 1969) {
             System.out.println("Year must be greater than 1970");
         }
+        
+        // Display inputs for month and year
+        System.out.print("The month you entered is ");
+        System.out.println(month);
+        System.out.print("The year you entered is ");
+        System.out.println(year);
+        
+        
     }
     
 }
