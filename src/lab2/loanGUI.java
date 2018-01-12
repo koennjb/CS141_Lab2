@@ -205,7 +205,7 @@ public class loanGUI extends javax.swing.JFrame {
         // Calculates the loan payment
         
         
-        // Defines constants
+        // Defines constants for max amounts
         final double MAX_AMOUNT = 1000000000;
         final double MAX_INTEREST_RATE = 100;
         final int COMPOUNDINGS = 12;
@@ -299,7 +299,6 @@ public class loanGUI extends javax.swing.JFrame {
     /**        
      *  Method         main()    
      *  Description:   Creates new {@link #loanGUI()} object and sets it to visible.
-     *                  Also uses try catch block to halt the thread so LoanCalcSplash.gif can run
      *  @param         args Unused.     
      *  @author        Koenn Becker   
      *  Date Created:  1/10/2018  
@@ -334,13 +333,6 @@ public class loanGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
-                // Halts the running thread for length of splash screen gif in milliseconds
-                try {
-                    Thread.sleep(1650);
-                }
-                catch(InterruptedException e) {
-                }
                 
                 // Creats new form Object and sets it visible
                 new loanGUI().setVisible(true);
