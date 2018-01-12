@@ -42,8 +42,10 @@ public class loanGUI extends javax.swing.JFrame {
         
         // Set icon for form
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/lab2/planeIcon.png"));
+        
         // Sets focused field
         principalJTextField.requestFocus();
+        
         // Sets current date and adds it to form title
         setDate();
     }
@@ -51,7 +53,7 @@ public class loanGUI extends javax.swing.JFrame {
      *  Method          setDate()     
      *  Description:    Creates new SimpleDateFormat<br>
      *                  Sets date and then adds it to form title<br>
-     *  Date Created:           1/10/2018  
+     *  Date Created:   1/10/2018  
      *  @author         Koenn Becker
      *  @see            java.text.DateFormat
      *  @see            java.text.SimpleDateFormat

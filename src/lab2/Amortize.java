@@ -1,6 +1,7 @@
 package lab2;
 import java.io.*; 
 import java.text.NumberFormat; 
+import java.util.InputMismatchException;
 import java.util.Scanner; 
 /**
  * Calculates a monthly loan payment given loan amount,
@@ -28,67 +29,45 @@ public class Amortize
     */
     
     public static void main (String args[]) {
+        
         // Creates a decimal format for currency 
-	NumberFormat moneyFormat = NumberFormat.getCurrencyInstance(); 	
+	NumberFormat moneyFormat = NumberFormat.getCurrencyInstance(); 
+        
+        try{
 
-        // Input loan amount using scanner
-        Scanner keyboard =  new Scanner(System.in);
-	System.out.print ("Enter the loan amount in dollars > "); 
-	double loanAmount = keyboard.nextDouble(); 
+            // Input loan amount using scanner
+            Scanner keyboard =  new Scanner(System.in);
+            System.out.print ("Enter the loan amount in dollars > "); 
+            double loanAmount = keyboard.nextDouble(); 
+
+            // Input interest rate as percent using scanner
+            System.out.print ("Enter the interest rate in percent > "); 
+            double interest = keyboard.nextDouble(); 
+
+            // Input years of loan using scanner
+            System.out.print ("Enter the number of years > "); 
+            double years = keyboard.nextDouble();
+            
+            boolean invalidInput = (loanAmount < 0 || loanAmount > 1000000000 || 
+                interest < 0 || interest > 100 || years < 0 || years > 50);
+          
+            if (invalidInput)
                 
-        // Input interest rate as percent using scanner
-	System.out.print ("Enter the interest rate in percent > "); 
-	double interest = keyboard.nextDouble(); 
-		
-        // Input years of loan using scanner
-	System.out.print ("Enter the number of years > "); 
-	double years = keyboard.nextDouble(); 
-                
-        //call payment method to calculate inputs
-	System.out.print ("The payment is: "); 
-	System.out.println (moneyFormat.format(payment(loanAmount, interest, years)));
+                throw new NumberFormatException();
+
+            //call payment method to calculate inputs if no exceptions are thrown
+            System.out.print ("The payment is: "); 
+            System.out.println (moneyFormat.format(payment(loanAmount, interest, years)));
+
+        } catch(InputMismatchException e){      // Catches exception for wrong input type
+            System.out.println("ERROR: Please enter a valid number, no characters");
+        } catch(NumberFormatException num){     // Catches exception for negative number
+            System.out.println("ERROR: Please enter positive numbers only");
+        }
         
     }
         
-    /**
-    *  Method:   inputDouble()    
-    *  Description:    Converts user input from a String to a double.<p>
-    *  Date Created:   1/11/2018
-    *  @param          prompt
-    * @param           in 
-    * @return          double
-    *  @author         Koenn Becker
-    */  
-//  public static double inputDouble (String prompt, BufferedReader in) {
-//	boolean error;          // error detector 
-//	String input = "";      // read input variable 
-//	double value = 0;       // converted input to a double type     
-//			
-//	do {
-//            error = false; 
-//            System.out.print(prompt); 
-//            System.out.flush();
-//            
-//            try {
-//		input = in.readLine();
-//                
-//            } catch(IOException e) {
-//                System.out.println ("An input error was caught"); 
-//		System.exit (1); 
-//                
-//            }
-//            
-//            try {
-//		value = Double.valueOf(input).doubleValue(); 
-//                
-//            } catch (NumberFormatException e) {
-//		System.out.println("Please try again"); 
-//		error = true;
-//            }
-//	} while (error);
-//	return value;
-//        
-//    }
+    
 
     /**        
     *  Method          payment     

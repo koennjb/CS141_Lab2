@@ -11,15 +11,15 @@ import javax.swing.JOptionPane;
  * <p>
  * Date:           1/11/2018 
  * <p>
- * @author Koenn Becker
- * @version     1.0.0
- * @see javax.swing.JOptionPane
+ * @author         Koenn Becker
+ * @version        1.0.0
+ * @see            javax.swing.JOptionPane
  */
 public class ExtractDigits {
     
     /**        
      *  Event handler   main()<br>
-     *  Description:   This is the main method which checks to make sure
+     *  Description:    This is the main method which checks to make sure
      *                  arguments are entered then stores the month and year in
      *                  separate variables using the string index. Then it asks
      *                  for user input using a JOptionDialog and extracts each
